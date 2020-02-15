@@ -1,6 +1,13 @@
-# app-chat
+# App-Chat
 
-> My super-duper Nuxt.js project
+```
+# Tehnologi
+$ Nuxt.js
+$ Vue.js
+$ Vuex
+$ Node.js
+$ Socket.io
+```
 
 ## Build Setup
 
