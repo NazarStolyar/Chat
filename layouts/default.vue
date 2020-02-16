@@ -1,6 +1,18 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app>
+    <v-snackbar
+      v-model="snackbar"
+    >
+      {{ message }}
+      <v-btn
+        color="red"
+        text
+        @click="snackbar = false"
+      >
+      </v-btn>
+    </v-snackbar>
+
+    <v-navigation-drawer v-model="drawer" app mobile-break-point="650">
 
       <v-list subheader>
         <v-subheader>Recent chat</v-subheader>
@@ -16,7 +28,7 @@
           </v-list-item-content>
 
           <v-list-item-icon>
-            <v-icon :color="u.id === 1 ? 'primary' : 'grey'">mdi-message-text</v-icon>
+            <v-icon :color="u.id === user.id ? 'primary' : 'grey'">mdi-message-text</v-icon>
           </v-list-item-icon>
         </v-list-item>
       </v-list>
@@ -33,9 +45,9 @@
       <v-spacer></v-spacer>
     </v-app-bar>
     <v-content>
-      <v-container fluid>
+      <div style="height: 100%">
         <nuxt/>
-      </v-container>
+      </div>
     </v-content>
   </v-app>
 </template>
@@ -47,25 +59,21 @@
         data() {
             return {
                 drawer: true,
-                users: [
-                    {
-                        id: 0,
-                        name: 'Nazar',
-                    },
-                    {
-                        id: 1,
-                        name: 'Lilia',
-                    }
-                ]
+                message: '',
+                snackbar: null
             }
         },
+
         methods: {
             ...mapMutations(['clearData']),
             exit() {
-              this.$router.push('/?message=leftChat');
-              this.clearData();
+              this.$socket.emit('userLeft', this.user.id, () => {
+                  this.$router.push('/?message=leftChat');
+                  this.clearData();
+              });
+
             }
         },
-        computed: mapState(['user'])
+        computed: mapState(['user', 'users'])
     }
 </script>
