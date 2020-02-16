@@ -1,6 +1,6 @@
 # App-Chat
 
-```
+``` bash
 # Tehnologi
 $ Nuxt.js
 $ Vue.js
